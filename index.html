@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Information</title>
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mt-5">Movies Info App</h1>
+        <form id="movieForm" autocomplete="off">
+            <div class="form-group">
+                <input class="form-control" id="movie" placeholder="Enter Movie Name" class="form-control">
+            </div>
+            <div class="form-group">
+                <br>
+                <button class="btn btn-danger btn-block">
+                    Search Movie
+                </button>
+            </div>
+        </form>
+        <br>
+        <div class="result"></div>
+    </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+
+        var apikey = "b2297fd4";
+        var result = "";
+        $('#movieForm').submit(function(event){
+            event.preventDefault();
+            var movie = $('#movie').val();
+            var url = "http://www.omdbapi.com/?apikey="+apikey
+            
+            $.ajax({
+                method:'GET',
+                url:url+'&t='+movie,
+                success:function(data){
+                    console.log(data);
+
+                    result = `
+
+
+                    <img style="float:center" class="img-thumnail" width="200" height="200" src="${data.Poster}">
+                    <h2>${data.Title}</h2>
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>Actors:</strong> ${data.Actors}</li>
+                        <li class="list-group-item"><strong>Genre:</strong> ${data.Genre}</li>
+                        <li class="list-group-item"><strong>IMDB Rating:</strong> ${data.imdbRating}</li>
+                        <li class="list-group-item"><strong>Director:</strong> ${data.Director}</li>
+                        <li class="list-group-item"><strong>Released:</strong> ${data.Released}</li>
+                        <li class="list-group-item"><strong>Rated:</strong> ${data.Rated}</li>
+                        <li class="list-group-item"><strong>Writer:</strong> ${data.Writer}</li>
+
+                    `;
+                    $('.result').html(result);
+                }
+            })
+        })
+    })
+</script>
+</html>
